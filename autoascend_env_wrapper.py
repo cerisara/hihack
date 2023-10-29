@@ -97,6 +97,7 @@ class AutoAscendEnvWrapper:
         while 1:
             try:
                 self._init_agent()
+                print("ok",self.agent)
                 self.agent.main()
                 break
             except ReloadAgent:
@@ -329,7 +330,10 @@ class AutoAscendEnvWrapper:
                 self.visualizer.step(self.last_observation, repr(chr(int(agent_action))))
             action = agent_action
 
-        obs, reward, done, info = self.env.step(self.env.actions.index(action), HIHACK_ORDINALS[agent_strategy_log])
+        if agent_strategy_log not in HIHACK_ORDINALS:
+            obs, reward, done, info = self.env.step(self.env.actions.index(action), 0)
+        else:
+            obs, reward, done, info = self.env.step(self.env.actions.index(action), HIHACK_ORDINALS[agent_strategy_log])
         self.score += reward
         self.step_count += 1
         # if not done:
